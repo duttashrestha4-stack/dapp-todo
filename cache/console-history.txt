@@ -1,0 +1,13 @@
+console.log("✅ Deployed to:", address);
+const address = await todoList.getAddress();
+await todoList.waitForDeployment();
+const todoList = await ethers.deployContract("TodoList");
+const { ethers } = await network.connect();
+const { network } = await import("hardhat");
+npm run build
+   console.log("✅ Deployed to:", address);
+   const address = await todoList.getAddress();
+   await todoList.waitForDeployment();
+   const todoList = await ethers.deployContract("TodoList");
+   const { ethers } = await network.connect();
+   const { network } = await import("hardhat");
