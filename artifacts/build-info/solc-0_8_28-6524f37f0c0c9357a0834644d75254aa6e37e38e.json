@@ -1,0 +1,39 @@
+{
+  "_format": "hh3-sol-build-info-1",
+  "id": "solc-0_8_28-6524f37f0c0c9357a0834644d75254aa6e37e38e",
+  "solcVersion": "0.8.28",
+  "solcLongVersion": "0.8.28+commit.7893614a",
+  "userSourceNameMap": {
+    "contracts/Counter.sol": "project/contracts/Counter.sol",
+    "contracts/todolist.sol": "project/contracts/todolist.sol"
+  },
+  "input": {
+    "language": "Solidity",
+    "settings": {
+      "evmVersion": "cancun",
+      "outputSelection": {
+        "*": {
+          "": [
+            "ast"
+          ],
+          "*": [
+            "abi",
+            "evm.bytecode",
+            "evm.deployedBytecode",
+            "evm.methodIdentifiers",
+            "metadata"
+          ]
+        }
+      },
+      "remappings": []
+    },
+    "sources": {
+      "project/contracts/Counter.sol": {
+        "content": "// SPDX-License-Identifier: UNLICENSED\npragma solidity ^0.8.28;\n\ncontract Counter {\n  uint public x;\n\n  event Increment(uint by);\n\n  function inc() public {\n    x++;\n    emit Increment(1);\n  }\n\n  function incBy(uint by) public {\n    require(by > 0, \"incBy: increment should be positive\");\n    x += by;\n    emit Increment(by);\n  }\n}\n"
+      },
+      "project/contracts/todolist.sol": {
+        "content": "// SPDX-License-Identifier: MIT\r\npragma solidity ^0.8.28;\r\n\r\ncontract TodoList {\r\n    // 1. Define the Task structure\r\n    struct Task {\r\n        uint id;\r\n        string text;\r\n        bool complete;\r\n    }\r\n\r\n    // 2. Mapping to store tasks for each user address\r\n    // address => taskCount (to generate unique IDs)\r\n    mapping(address => uint) public taskCount;\r\n    // address => taskId => Task struct\r\n    mapping(address => mapping(uint => Task)) public tasks;\r\n\r\n    // Event to signal a new task was created\r\n    event TaskCreated(uint id, string text, address indexed user);\r\n\r\n    // Event to signal a task was completed\r\n    event TaskCompleted(uint id, bool complete, address indexed user);\r\n\r\n    // --- Functions ---\r\n\r\n    /**\r\n     * @dev Adds a new task for the calling address (msg.sender).\r\n     * @param _text The description of the task.\r\n     */\r\n    function addTask(string memory _text) public {\r\n        uint newId = taskCount[msg.sender] + 1;\r\n        taskCount[msg.sender] = newId;\r\n\r\n        tasks[msg.sender][newId] = Task(\r\n            newId,\r\n            _text,\r\n            false // Initially incomplete\r\n        );\r\n\r\n        emit TaskCreated(newId, _text, msg.sender);\r\n    }\r\n\r\n    /**\r\n     * @dev Toggles the completion status of a task.\r\n     * @param _id The ID of the task to update.\r\n     */\r\n    function toggleComplete(uint _id) public {\r\n        // Ensure the task exists for the user\r\n        require(_id > 0 && _id <= taskCount[msg.sender], \"Invalid task ID.\");\r\n\r\n        Task storage task = tasks[msg.sender][_id];\r\n        task.complete = !task.complete; // Toggle the status\r\n\r\n        emit TaskCompleted(_id, task.complete, msg.sender);\r\n    }\r\n\r\n    /**\r\n     * @dev Retrieves all tasks for the calling address (msg.sender).\r\n     * @return An array of Task structs.\r\n     */\r\n    function getMyTasks() public view returns (Task[] memory) {\r\n        uint count = taskCount[msg.sender];\r\n        Task[] memory userTasks = new Task[](count);\r\n\r\n        for (uint i = 1; i <= count; i++) {\r\n            userTasks[i - 1] = tasks[msg.sender][i];\r\n        }\r\n\r\n        return userTasks;\r\n    }\r\n}"
+      }
+    }
+  }
+}
