@@ -1,0 +1,36 @@
+{
+  "name": "dapp-todo",
+  "version": "1.0.0",
+  "description": "Hardhat Project for DApp Todo",
+  "main": "index.js",
+  "scripts": {
+    "test": "npx hardhat test",
+    "compile": "npx hardhat compile",
+    "node": "npx hardhat node",
+    "console": "npx hardhat console --network localhost",
+    "deploy:help": "echo Use: npm run console then paste deployment commands"
+  },
+  "keywords": [
+    "hardhat",
+    "solidity",
+    "ethereum"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-ethers": "^4.0.0",
+    "@nomicfoundation/hardhat-ignition": "^3.0.3",
+    "@nomicfoundation/hardhat-verify": "^3.0.4",
+    "@types/chai": "^5.2.3",
+    "@types/mocha": "^10.0.10",
+    "chai": "^6.2.0",
+    "ethers": "^6.0.0",
+    "hardhat": "^3.0.0",
+    "mocha": "^11.7.4"
+  },
+  "dependencies": {
+    "forge-std": "^1.1.2",
+    "web3": "^4.16.0"
+  },
+  "type": "module"
+}
